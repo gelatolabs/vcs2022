@@ -9,7 +9,11 @@ difficulty=`{cat etc/users/$user/difficulty}
 funds=`{cat etc/users/$user/funds}
 week=`{cat etc/users/$user/week}
 
+p_startup=`{echo $p_startup | tr -cd 'a-z0-9'}
+p_name=`{echo $p_name | tr -d '<>"'''}
+
 if({! ~ $#p_startup 0} &&
+   {test -d site/data/startups/$p_startup} &&
    {! ~ $#p_name 0} &&
    {~ $#p_investment 1} &&
    {~ $p_investment [1-9]*} &&
@@ -58,8 +62,8 @@ if({! ~ $#p_startup 0} &&
 %               row=1
 %               for(startup in `{ls -tr etc/users/$user/positions}) {
 %{
-                    id=`{cat $startup/startup}
-                    name=`{cat $startup/name}
+                    id=`{cat $startup/startup | tr -cd 'a-z0-9'}
+                    name=`{cat $startup/name | tr -d '<>"'''}
                     quality=`{cat $startup/quality}
                     investment=`{cat $startup/investment}
 
