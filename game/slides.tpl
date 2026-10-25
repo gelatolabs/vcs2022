@@ -1,3 +1,6 @@
+% q_startup=`{echo $q_startup | tr -cd 'a-z0-9'}
+% q_name=`{echo $q_name | tr -d '<>"'''}
+% if(! ~ $"q_quality good) q_quality=bad
 % startup=site/data/startups/$q_startup
 
 <main class="theme%(`{shuf -i 1-5 -n 1}%)">
