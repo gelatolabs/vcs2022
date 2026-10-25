@@ -1,13 +1,15 @@
-% startup=site/data/startups/$q_startup
+% startup=site/data/startups/`{echo $q_startup | tr -cd 'a-z0-9'}
+% line=`{echo $q_history | tr -cd '0-9'}
+% if(~ $#line 0) line=1
 
 <main class="theme%($q_theme%)">
     <div class="slide">
         <h2>History</h2>
 %       if(~ $q_quality good) {
-            <ul>%(`{sed -n $q_history^p $startup/good/history}%)</ul>
+            <ul>%(`{sed -n $line^p $startup/good/history}%)</ul>
 %       }
 %       if not {
-            <ul>%(`{sed -n $q_history^p $startup/bad/history}%)</ul>
+            <ul>%(`{sed -n $line^p $startup/bad/history}%)</ul>
 %       }
     </div>
 </main>
