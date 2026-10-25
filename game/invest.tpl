@@ -11,10 +11,12 @@ week=`{cat etc/users/$user/week}
 
 if(! ~ $#post_args 0) {
     for(startup in $post_args) {
-        startup=`{echo $startup | sed 's/^p_//'}
-        value=`{cat etc/users/$user/positions/$startup/investment}
-        funds=`{+ $funds $value}
-        rm -r etc/users/$user/positions/$startup
+        startup=`{echo $startup | sed 's/^p_//' | tr -cd 'a-z0-9'}
+        if(! ~ $#startup 0 && test -d etc/users/$user/positions/$startup) {
+            value=`{cat etc/users/$user/positions/$startup/investment}
+            funds=`{+ $funds $value}
+            rm -r etc/users/$user/positions/$startup
+        }
     }
     echo $funds > etc/users/$user/funds
 }
