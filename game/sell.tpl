@@ -1,6 +1,6 @@
 %{
-user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
-if(~ $#user 0) {
+user=`{get_cookie id | tr -cd 0-9a-f}
+if(! ~ `{echo -n $user | wc -c} 32 || ! test -d etc/users/$user) {
     echo '<a href="/">Play</a>'
     exit
 }

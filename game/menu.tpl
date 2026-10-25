@@ -1,8 +1,10 @@
 %{
-user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
-if(~ $REQUEST_METHOD POST) {
+user=`{get_cookie id | tr -cd 0-9a-f}
+if(! ~ `{echo -n $user | wc -c} 32 || ! test -d etc/users/$user)
+    user=()
+if(~ $#user 1 && ~ $REQUEST_METHOD POST) {
     rm -r etc/users/$user/*
-    cp -r etc/users/template/* etc/users/$user/
+    cp -r etc/template/* etc/users/$user/
 }
 %}
 

@@ -1,5 +1,9 @@
 %{
-user=`{get_cookie id | sed 's/[^a-z0-9]//g'}
+user=`{get_cookie id | tr -cd 0-9a-f}
+if(! ~ `{echo -n $user | wc -c} 32 || ! test -d etc/users/$user) {
+    echo '<a href="/">Play</a>'
+    exit
+}
 difficulty=`{cat etc/users/$user/difficulty}
 funds=`{cat etc/users/$user/funds}
 for(startup in `{ls etc/users/$user/positions}) {
