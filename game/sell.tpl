@@ -11,7 +11,9 @@ week=`{cat etc/users/$user/week}
 
 if({! ~ $#p_startup 0} &&
    {! ~ $#p_name 0} &&
-   {echo $p_investment | grep -q '^[0-9]*$'} &&
+   {~ $#p_investment 1} &&
+   {~ $p_investment [1-9]*} &&
+   {~ `{echo $p_investment | tr -cd '0-9'} $p_investment} &&
    {~ $p_quality good || ~ $p_quality bad}) {
     if(gt $p_investment $funds) {
         echo '<p>You can''t afford that! <a href="/invest">Back</a></p>'
